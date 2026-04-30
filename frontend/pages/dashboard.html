@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - LearnHub LMS</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>LearnHub LMS</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="active">Dashboard</a>
+                <a href="profile.html">Profile</a>
+                <a href="#" id="logout-btn">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Welcome, <span id="user-name">User</span>!</h1>
+            <p class="welcome-text">Role: <span id="user-role"></span> | Dashboard Overview</p>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="admin-dashboard" style="display: none;">
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-chalkboard-teacher"></i> Create Teacher Account</h3>
+                    <form id="create-teacher-form">
+                        <div class="form-group">
+                            <input type="text" id="teacher-name" placeholder="Teacher Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="teacher-email" placeholder="Teacher Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="teacher-password" placeholder="Password" required>
+                        </div>
+                        <button type="submit" class="auth-btn">Create Teacher</button>
+                    </form>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-book"></i> Create Course</h3>
+                    <form id="create-course-form">
+                        <div class="form-group">
+                            <input type="text" id="course-title" placeholder="Course Title" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="course-description" placeholder="Course Description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <select id="course-teacher" required>
+                                <option value="">Select Teacher</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="auth-btn">Create Course</button>
+                    </form>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-users"></i> All Users</h3>
+                    <div id="users-list"></div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-list"></i> All Courses</h3>
+                    <div id="admin-courses-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teacher Dashboard -->
+        <div id="teacher-dashboard" style="display: none;">
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-chalkboard"></i> My Courses</h3>
+                    <div id="teacher-courses-list"></div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-tasks"></i> Create Assignment</h3>
+                    <form id="create-assignment-form">
+                        <div class="form-group">
+                            <select id="assignment-course" required>
+                                <option value="">Select Course</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="assignment-title" placeholder="Assignment Title" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="assignment-description" placeholder="Assignment Description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Due Date & Time</label>
+                            <input type="datetime-local" id="assignment-due" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="assignment-marks" placeholder="Total Marks" required>
+                        </div>
+                        <button type="submit" class="auth-btn">Create Assignment</button>
+                    </form>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-question-circle"></i> Create Quiz</h3>
+                    <form id="create-quiz-form">
+                        <div class="form-group">
+                            <select id="quiz-course" required>
+                                <option value="">Select Course</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="quiz-title" placeholder="Quiz Title" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="quiz-duration" placeholder="Duration (minutes)" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="quiz-marks" placeholder="Total Marks" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Due Date & Time</label>
+                            <input type="datetime-local" id="quiz-due">
+                        </div>
+                        <div id="quiz-questions-container">
+                            <h4>Questions</h4>
+                            <div id="quiz-questions-list"></div>
+                            <button type="button" onclick="addQuizQuestion()" class="small-btn" style="margin-top:8px;">+ Add Question</button>
+                        </div>
+                        <button type="submit" class="auth-btn" style="margin-top:12px;">Create Quiz</button>
+                    </form>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-upload"></i> Upload Material</h3>
+                    <form id="upload-material-form">
+                        <div class="form-group">
+                            <select id="material-course" required>
+                                <option value="">Select Course</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="material-title" placeholder="Material Title" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="material-content" placeholder="Material Content" required></textarea>
+                        </div>
+                        <button type="submit" class="auth-btn">Upload Material</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Dashboard -->
+        <div id="student-dashboard" style="display: none;">
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-book-open"></i> My Courses</h3>
+                    <div id="student-courses-list"></div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-tasks"></i> My Assignments</h3>
+                    <div id="student-assignments"></div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-poll"></i> My Quizzes</h3>
+                    <div id="student-quizzes"></div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-calendar-check"></i> Attendance</h3>
+                    <div id="student-attendance"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <div id="alert" class="alert"></div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+        let currentUser = null;
+
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem('access_token');
+            const user = localStorage.getItem('user');
+            if (!token || !user) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            currentUser = JSON.parse(user);
+            return true;
+        }
+
+        // Show alert
+        function showAlert(message, type = 'success') {
+            const alertDiv = document.getElementById('alert');
+            alertDiv.textContent = message;
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.style.display = 'block';
+            setTimeout(() => {
+                alertDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // API call helper
+        async function apiCall(endpoint, method = 'GET', data = null) {
+            const token = localStorage.getItem('access_token');
+            const options = {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            if (data) {
+                options.body = JSON.stringify(data);
+            }
+
+            const response = await fetch(`${API_URL}${endpoint}`, options);
+            const result = await response.json();
+            if (!response.ok) {
+                // If blocked, force logout
+                if (response.status === 403 && result.error && result.error.includes('blocked')) {
+                    showAlert('Your account has been blocked. Logging out...', 'error');
+                    setTimeout(() => {
+                        localStorage.removeItem('access_token');
+                        localStorage.removeItem('user');
+                        window.location.href = 'login.html';
+                    }, 2000);
+                }
+                throw new Error(result.error || 'API call failed');
+            }
+            return result;
+        }
+
+        // Logout
+        async function logout() {
+            try {
+                await apiCall('/auth/logout', 'POST');
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('user');
+            window.location.href = '../index.html';
+        }
+
+        // ==================== LOAD DASHBOARD ====================
+        async function loadDashboard() {
+            if (!checkAuth()) return;
+
+            document.getElementById('user-name').textContent = currentUser.name;
+            document.getElementById('user-role').textContent = currentUser.role;
+
+            if (currentUser.role === 'admin') {
+                document.getElementById('admin-dashboard').style.display = 'block';
+                await loadTeachers();
+                await loadAdminCourses();
+                await loadAllUsers();
+            } else if (currentUser.role === 'teacher') {
+                document.getElementById('teacher-dashboard').style.display = 'block';
+                await loadTeacherCourses();
+                await loadTeacherCourseSelectors();
+            } else {
+                document.getElementById('student-dashboard').style.display = 'block';
+                await loadStudentCourses();
+                await loadStudentAssignments();
+                await loadStudentQuizzes();
+            }
+        }
+
+        // ==================== ADMIN FUNCTIONS ====================
+        async function loadTeachers() {
+            try {
+                const users = await apiCall('/auth/users?role=teacher');
+                const select = document.getElementById('course-teacher');
+                select.innerHTML = '<option value="">Select Teacher</option>';
+                users.forEach(teacher => {
+                    select.innerHTML += `<option value="${teacher._id}">${teacher.name} (${teacher.email})</option>`;
+                });
+            } catch (error) {
+                console.error('Error loading teachers:', error);
+            }
+        }
+
+        async function loadAllUsers() {
+            try {
+                const users = await apiCall('/auth/users');
+                const usersList = document.getElementById('users-list');
+                usersList.innerHTML = users.map(user => `
+                    <div class="user-item" style="padding: 8px 0;">
+                        <strong>${user.name}</strong> (${user.role})
+                        ${user.is_blocked ? ' <span style="color:red;">[BLOCKED]</span>' : ''}<br>
+                        <small>${user.email}</small>
+                        ${user.role !== 'admin' ? `
+                            <div style="margin-top:4px;">
+                                <button onclick="editUser('${user._id}', '${user.name}', '${user.email}', '${user.role}')" class="small-btn" style="background:#17a2b8;">Edit</button>
+                                ${user.is_blocked
+                                    ? `<button onclick="unblockUser('${user._id}')" class="small-btn" style="background:#28a745;">Unblock</button>`
+                                    : `<button onclick="blockUser('${user._id}')" class="small-btn">Block</button>`
+                                }
+                                <button onclick="deleteUser('${user._id}')" class="small-btn danger">Delete</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                    <hr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading users:', error);
+            }
+        }
+
+        async function loadAdminCourses() {
+            try {
+                const courses = await apiCall('/courses');
+                const coursesList = document.getElementById('admin-courses-list');
+                if (courses.length === 0) {
+                    coursesList.innerHTML = '<p>No courses yet.</p>';
+                    return;
+                }
+                coursesList.innerHTML = courses.map(course => `
+                    <div class="course-item" style="padding: 8px 0;">
+                        <strong>${course.title}</strong><br>
+                        <small>Teacher: ${course.teacher_name || 'N/A'}</small><br>
+                        <small>Students: ${course.students?.length || 0}</small>
+                        <div style="margin-top:4px;">
+                            <button onclick="viewCourseDetails('${course._id}')" class="small-btn">View</button>
+                            <button onclick="editCourse('${course._id}')" class="small-btn" style="background:#17a2b8;">Edit</button>
+                            <button onclick="deleteCourse('${course._id}')" class="small-btn danger">Delete</button>
+                        </div>
+                    </div>
+                    <hr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading courses:', error);
+            }
+        }
+
+        // ==================== TEACHER FUNCTIONS ====================
+        async function loadTeacherCourses() {
+            try {
+                const courses = await apiCall('/courses');
+                const coursesList = document.getElementById('teacher-courses-list');
+                if (courses.length === 0) {
+                    coursesList.innerHTML = '<p>No courses assigned yet.</p>';
+                    return;
+                }
+                coursesList.innerHTML = courses.map(course => `
+                    <div class="course-card" onclick="viewCourseDetails('${course._id}')">
+                        <h4>${course.title}</h4>
+                        <p>${(course.description || '').substring(0, 100)}...</p>
+                        <small>Students Enrolled: ${course.students?.length || 0}</small>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading teacher courses:', error);
+            }
+        }
+
+        async function loadTeacherCourseSelectors() {
+            try {
+                const courses = await apiCall('/courses');
+                const assignmentSelect = document.getElementById('assignment-course');
+                const quizSelect = document.getElementById('quiz-course');
+                const materialSelect = document.getElementById('material-course');
+
+                const options = courses.map(course =>
+                    `<option value="${course._id}">${course.title}</option>`
+                ).join('');
+
+                assignmentSelect.innerHTML = '<option value="">Select Course</option>' + options;
+                quizSelect.innerHTML = '<option value="">Select Course</option>' + options;
+                materialSelect.innerHTML = '<option value="">Select Course</option>' + options;
+            } catch (error) {
+                console.error('Error loading course selectors:', error);
+            }
+        }
+
+        // ==================== STUDENT FUNCTIONS ====================
+        async function loadStudentCourses() {
+            try {
+                const courses = await apiCall('/courses');
+                const coursesList = document.getElementById('student-courses-list');
+                if (courses.length === 0) {
+                    coursesList.innerHTML = `
+                        <p>No courses enrolled yet.</p>
+                        <button onclick="showAvailableCourses()" class="auth-btn">Browse Available Courses</button>
+                    `;
+                    return;
+                }
+                coursesList.innerHTML = `
+                    <button onclick="showAvailableCourses()" class="small-btn" style="margin-bottom:10px;">+ Enroll in More Courses</button>
+                ` + courses.map(course => `
+                    <div class="course-card" onclick="viewCourseDetails('${course._id}')">
+                        <h4>${course.title}</h4>
+                        <p>${(course.description || '').substring(0, 100)}...</p>
+                        <small>Teacher: ${course.teacher_name || 'N/A'}</small>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading student courses:', error);
+            }
+        }
+
+        async function showAvailableCourses() {
+            try {
+                let availableCourses;
+                try {
+                    availableCourses = await apiCall('/courses/available');
+                } catch (e) {
+                    // Fallback: get all courses and filter
+                    const allCourses = await apiCall('/courses');
+                    const enrolled = await apiCall('/courses');
+                    const enrolledIds = new Set(enrolled.map(c => c._id));
+                    availableCourses = allCourses.filter(c => !enrolledIds.has(c._id));
+                }
+
+                const modalBody = document.getElementById('modal-body');
+                modalBody.innerHTML = `
+                    <h3>Available Courses</h3>
+                    ${availableCourses.map(course => `
+                        <div class="course-card" style="margin-bottom:10px; padding:12px; border:1px solid #eee; border-radius:8px;">
+                            <h4>${course.title}</h4>
+                            <p>${course.description || ''}</p>
+                            <p><strong>Teacher:</strong> ${course.teacher_name || 'N/A'}</p>
+                            <button onclick="enrollInCourse('${course._id}')" class="auth-btn">Enroll</button>
+                        </div>
+                    `).join('')}
+                    ${availableCourses.length === 0 ? '<p>No new courses available for enrollment.</p>' : ''}
+                `;
+                document.getElementById('modal').style.display = 'block';
+            } catch (error) {
+                showAlert('Error loading courses: ' + error.message, 'error');
+            }
+        }
+
+        async function enrollInCourse(courseId) {
+            try {
+                await apiCall(`/courses/${courseId}/enroll`, 'POST');
+                showAlert('Successfully enrolled in course!');
+                closeModal();
+                setTimeout(() => location.reload(), 1500);
+            } catch (error) {
+                showAlert('Failed to enroll: ' + error.message, 'error');
+            }
+        }
+
+        async function loadStudentAssignments() {
+            try {
+                const courses = await apiCall('/courses');
+                const assignmentsDiv = document.getElementById('student-assignments');
+                let assignmentsHtml = '';
+
+                for (const course of courses) {
+                    try {
+                        const assignments = await apiCall(`/courses/${course._id}/assignments`);
+                        if (assignments.length > 0) {
+                            assignmentsHtml += `<h4>${course.title}</h4>`;
+                            assignmentsHtml += assignments.map(assignment => {
+                                const dueDate = assignment.due_date ? new Date(assignment.due_date) : null;
+                                const isOverdue = dueDate && new Date() > dueDate;
+                                const submitted = assignment.submissions?.some(s => s.student_id === currentUser.id);
+                                const mySubmission = assignment.submissions?.find(s => s.student_id === currentUser.id);
+
+                                let statusHtml = '';
+                                if (submitted) {
+                                    statusHtml = `<span style="color:green;">Submitted</span>`;
+                                    if (mySubmission && mySubmission.marks !== null) {
+                                        statusHtml += ` | Marks: <strong>${mySubmission.marks}/${assignment.total_marks}</strong>`;
+                                        if (mySubmission.feedback) {
+                                            statusHtml += `<br>Feedback: ${mySubmission.feedback}`;
+                                        }
+                                    }
+                                } else if (isOverdue) {
+                                    statusHtml = `<span style="color:red;">Deadline Passed</span>`;
+                                } else {
+                                    statusHtml = `<button onclick="submitAssignment('${assignment._id}')" class="small-btn">Submit</button>`;
+                                }
+
+                                return `
+                                    <div class="assignment-item" style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                                        <strong>${assignment.title}</strong><br>
+                                        <small>${assignment.description || ''}</small><br>
+                                        <small>Due: ${dueDate ? dueDate.toLocaleString() : 'No deadline'} | Marks: ${assignment.total_marks}</small><br>
+                                        ${statusHtml}
+                                    </div>
+                                `;
+                            }).join('');
+                        }
+                    } catch (error) {
+                        console.error('Error loading assignments for course:', error);
+                    }
+                }
+
+                assignmentsDiv.innerHTML = assignmentsHtml || '<p>No assignments available.</p>';
+            } catch (error) {
+                console.error('Error loading student assignments:', error);
+            }
+        }
+
+        async function loadStudentQuizzes() {
+            try {
+                const courses = await apiCall('/courses');
+                const quizzesDiv = document.getElementById('student-quizzes');
+                let quizzesHtml = '';
+
+                for (const course of courses) {
+                    try {
+                        const quizzes = await apiCall(`/courses/${course._id}/quizzes`);
+                        if (quizzes.length > 0) {
+                            quizzesHtml += `<h4>${course.title}</h4>`;
+                            quizzesHtml += quizzes.map(quiz => {
+                                const attempted = quiz.attempts?.some(a => a.student_id === currentUser.id);
+                                const myAttempt = quiz.attempts?.find(a => a.student_id === currentUser.id);
+                                const dueDate = quiz.due_date ? new Date(quiz.due_date) : null;
+                                const isOverdue = dueDate && new Date() > dueDate;
+
+                                let statusHtml = '';
+                                if (attempted) {
+                                    statusHtml = `<span style="color:green;">Attempted</span>`;
+                                    if (myAttempt && myAttempt.graded) {
+                                        statusHtml += ` | Marks: <strong>${myAttempt.marks_obtained}/${quiz.total_marks}</strong>`;
+                                    } else {
+                                        statusHtml += ` | <em>Grading pending</em>`;
+                                    }
+                                } else if (isOverdue) {
+                                    statusHtml = `<span style="color:red;">Deadline Passed</span>`;
+                                } else {
+                                    statusHtml = `<button onclick="attemptQuiz('${quiz._id}', '${quiz.title}', ${quiz.duration}, '${quiz.total_marks}')" class="small-btn">Attempt Quiz</button>`;
+                                }
+
+                                return `
+                                    <div class="quiz-item" style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                                        <strong>${quiz.title}</strong><br>
+                                        <small>Duration: ${quiz.duration} mins | Marks: ${quiz.total_marks}</small>
+                                        ${dueDate ? `<br><small>Due: ${dueDate.toLocaleString()}</small>` : ''}<br>
+                                        ${statusHtml}
+                                    </div>
+                                `;
+                            }).join('');
+                        }
+                    } catch (error) {
+                        console.error('Error loading quizzes for course:', error);
+                    }
+                }
+
+                quizzesDiv.innerHTML = quizzesHtml || '<p>No quizzes available.</p>';
+            } catch (error) {
+                console.error('Error loading student quizzes:', error);
+            }
+        }
+
+        // ==================== SUBMIT ASSIGNMENT (Student) ====================
+        window.submitAssignment = function(assignmentId) {
+            const modalBody = document.getElementById('modal-body');
+            modalBody.innerHTML = `
+                <h3>Submit Assignment</h3>
+                <form id="submit-assignment-form">
+                    <div class="form-group">
+                        <label>Your Answer / Submission Text</label>
+                        <textarea id="submission-text" rows="6" placeholder="Type your answer here..." required style="width:100%; padding:8px;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>File URL (optional)</label>
+                        <input type="text" id="submission-file-url" placeholder="Paste file link (Google Drive, etc.)" style="width:100%; padding:8px;">
+                    </div>
+                    <button type="submit" class="auth-btn">Submit Assignment</button>
+                </form>
+            `;
+            document.getElementById('modal').style.display = 'block';
+
+            document.getElementById('submit-assignment-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const submission_text = document.getElementById('submission-text').value;
+                const file_url = document.getElementById('submission-file-url').value;
+
+                try {
+                    await apiCall(`/assignments/${assignmentId}/submit`, 'POST', {
+                        submission_text,
+                        file_url
+                    });
+                    showAlert('Assignment submitted successfully!');
+                    closeModal();
+                    await loadStudentAssignments();
+                } catch (error) {
+                    showAlert('Error: ' + error.message, 'error');
+                }
+            });
+        };
+
+        // ==================== ATTEMPT QUIZ (Student) ====================
+        window.attemptQuiz = function(quizId, quizTitle, duration, totalMarks) {
+            const modalBody = document.getElementById('modal-body');
+            modalBody.innerHTML = `
+                <h3>Quiz: ${quizTitle}</h3>
+                <p>Duration: ${duration} minutes | Total Marks: ${totalMarks}</p>
+                <p id="quiz-timer" style="font-weight:bold; color:red;"></p>
+                <form id="attempt-quiz-form">
+                    <div class="form-group">
+                        <label>Your Answers</label>
+                        <textarea id="quiz-answers" rows="8" placeholder="Type your answers here..." required style="width:100%; padding:8px;"></textarea>
+                    </div>
+                    <button type="submit" class="auth-btn">Submit Quiz</button>
+                </form>
+            `;
+            document.getElementById('modal').style.display = 'block';
+
+            // Start timer
+            let timeLeft = duration * 60;
+            const timerEl = document.getElementById('quiz-timer');
+            const timerInterval = setInterval(() => {
+                const mins = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                timerEl.textContent = `Time Remaining: ${mins}:${secs.toString().padStart(2, '0')}`;
+                timeLeft--;
+                if (timeLeft < 0) {
+                    clearInterval(timerInterval);
+                    timerEl.textContent = 'Time is up!';
+                    document.getElementById('attempt-quiz-form').dispatchEvent(new Event('submit'));
+                }
+            }, 1000);
+
+            document.getElementById('attempt-quiz-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                clearInterval(timerInterval);
+                const answers = document.getElementById('quiz-answers').value;
+
+                try {
+                    await apiCall(`/quizzes/${quizId}/attempt`, 'POST', {
+                        answers: [answers]
+                    });
+                    showAlert('Quiz submitted successfully!');
+                    closeModal();
+                    await loadStudentQuizzes();
+                } catch (error) {
+                    showAlert('Error: ' + error.message, 'error');
+                }
+            });
+        };
+
+        // ==================== VIEW COURSE DETAILS ====================
+        window.viewCourseDetails = async function(courseId) {
+            try {
+                const course = await apiCall(`/courses/${courseId}`);
+                let assignments = [];
+                let quizzes = [];
+                try { assignments = await apiCall(`/courses/${courseId}/assignments`); } catch(e) {}
+                try { quizzes = await apiCall(`/courses/${courseId}/quizzes`); } catch(e) {}
+
+                const modalBody = document.getElementById('modal-body');
+                let html = `
+                    <h3>${course.title}</h3>
+                    <p><strong>Description:</strong> ${course.description || ''}</p>
+                    <p><strong>Teacher:</strong> ${course.teacher_name || 'N/A'}</p>
+                    <p><strong>Students Enrolled:</strong> ${course.students?.length || 0}</p>
+                    <hr>
+                    <h4>Materials</h4>
+                    <ul>
+                        ${course.materials?.map(m => `<li><strong>${m.title}</strong> (${m.type}) - ${m.content || ''}</li>`).join('') || '<li>No materials yet</li>'}
+                    </ul>
+                    <h4>Assignments (${assignments.length})</h4>
+                    <ul>
+                        ${assignments.map(a => `<li><strong>${a.title}</strong> - Due: ${a.due_date ? new Date(a.due_date).toLocaleString() : 'No deadline'} | Submissions: ${a.submissions?.length || 0}
+                            ${currentUser.role === 'teacher' ? `<button onclick="viewSubmissions('${a._id}')" class="small-btn" style="margin-left:8px;">Grade</button>` : ''}
+                        </li>`).join('') || '<li>No assignments yet</li>'}
+                    </ul>
+                    <h4>Quizzes (${quizzes.length})</h4>
+                    <ul>
+                        ${quizzes.map(q => `<li><strong>${q.title}</strong> - Duration: ${q.duration} mins | Attempts: ${q.attempts?.length || 0}
+                            ${currentUser.role === 'teacher' ? `<button onclick="viewQuizAttempts('${q._id}')" class="small-btn" style="margin-left:8px;">Grade</button>` : ''}
+                        </li>`).join('') || '<li>No quizzes yet</li>'}
+                    </ul>
+                `;
+
+                // Show enrolled students for teacher/admin
+                if (currentUser.role === 'teacher' || currentUser.role === 'admin') {
+                    try {
+                        const students = await apiCall(`/courses/${courseId}/students`);
+                        html += `<hr><h4>Enrolled Students (${students.length})</h4>`;
+                        html += students.map(s => `
+                            <div style="padding:4px 0;">
+                                ${s.name} (${s.email}) ${s.is_blocked ? '<span style="color:red;">[BLOCKED]</span>' : ''}
+                                ${!s.is_blocked
+                                    ? `<button onclick="blockUser('${s._id}')" class="small-btn" style="font-size:11px;">Block</button>`
+                                    : `<button onclick="unblockUser('${s._id}')" class="small-btn" style="font-size:11px; background:#28a745;">Unblock</button>`
+                                }
+                            </div>
+                        `).join('') || '<p>No students enrolled.</p>';
+                    } catch (e) {
+                        console.error('Error loading students:', e);
+                    }
+                }
+
+                modalBody.innerHTML = html;
+                document.getElementById('modal').style.display = 'block';
+            } catch (error) {
+                showAlert('Error loading course details', 'error');
+            }
+        };
+
+        // ==================== GRADING - View Submissions (Teacher) ====================
+        window.viewSubmissions = async function(assignmentId) {
+            try {
+                const data = await apiCall(`/assignments/${assignmentId}/submissions`);
+                const submissions = data.submissions || [];
+                const assignment = data.assignment || {};
+
+                const modalBody = document.getElementById('modal-body');
+                modalBody.innerHTML = `
+                    <h3>Grade: ${assignment.title}</h3>
+                    <p>Total Marks: ${assignment.total_marks}</p>
+                    <hr>
+                    ${submissions.length === 0 ? '<p>No submissions yet.</p>' : ''}
+                    ${submissions.map(sub => `
+                        <div style="border:1px solid #eee; padding:10px; margin-bottom:10px; border-radius:8px;">
+                            <strong>${sub.student_name || 'Unknown'}</strong> (${sub.student_email || ''})<br>
+                            <small>Submitted: ${new Date(sub.submitted_at).toLocaleString()}</small><br>
+                            <p>${sub.submission_text || ''}</p>
+                            ${sub.file_url ? `<a href="${sub.file_url}" target="_blank">View File</a><br>` : ''}
+                            <div style="margin-top:8px;">
+                                <label>Marks: </label>
+                                <input type="number" id="marks-${sub.student_id}" value="${sub.marks !== null ? sub.marks : ''}"
+                                    min="0" max="${assignment.total_marks}" style="width:60px; padding:4px;">
+                                <label style="margin-left:8px;">Feedback: </label>
+                                <input type="text" id="feedback-${sub.student_id}" value="${sub.feedback || ''}"
+                                    placeholder="Feedback" style="width:150px; padding:4px;">
+                                <button onclick="gradeAssignment('${assignment._id}', '${sub.student_id}', ${assignment.total_marks})"
+                                    class="small-btn" style="margin-left:8px;">Save Grade</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+                document.getElementById('modal').style.display = 'block';
+            } catch (error) {
+                showAlert('Error loading submissions: ' + error.message, 'error');
+            }
+        };
+
+        window.gradeAssignment = async function(assignmentId, studentId, totalMarks) {
+            const marks = parseInt(document.getElementById(`marks-${studentId}`).value);
+            const feedback = document.getElementById(`feedback-${studentId}`).value;
+
+            if (isNaN(marks) || marks < 0 || marks > totalMarks) {
+                showAlert(`Marks must be between 0 and ${totalMarks}`, 'error');
+                return;
+            }
+
+            try {
+                await apiCall(`/assignments/${assignmentId}/grade`, 'POST', {
+                    student_id: studentId,
+                    marks: marks,
+                    feedback: feedback
+                });
+                showAlert('Grade saved successfully!');
+            } catch (error) {
+                showAlert('Error: ' + error.message, 'error');
+            }
+        };
+
+        // ==================== GRADING - View Quiz Attempts (Teacher) ====================
+        window.viewQuizAttempts = async function(quizId) {
+            try {
+                const data = await apiCall(`/quizzes/${quizId}/attempts`);
+                const attempts = data.attempts || [];
+                const quiz = data.quiz || {};
+
+                const modalBody = document.getElementById('modal-body');
+                modalBody.innerHTML = `
+                    <h3>Grade: ${quiz.title}</h3>
+                    <p>Total Marks: ${quiz.total_marks}</p>
+                    <hr>
+                    ${attempts.length === 0 ? '<p>No attempts yet.</p>' : ''}
+                    ${attempts.map(att => `
+                        <div style="border:1px solid #eee; padding:10px; margin-bottom:10px; border-radius:8px;">
+                            <strong>${att.student_name || 'Unknown'}</strong> (${att.student_email || ''})<br>
+                            <small>Attempted: ${new Date(att.attempted_at).toLocaleString()}</small><br>
+                            <p><strong>Answers:</strong> ${Array.isArray(att.answers) ? att.answers.join(', ') : att.answers}</p>
+                            <div style="margin-top:8px;">
+                                <label>Marks: </label>
+                                <input type="number" id="quiz-marks-${att.student_id}" value="${att.graded ? att.marks_obtained : ''}"
+                                    min="0" max="${quiz.total_marks}" style="width:60px; padding:4px;">
+                                <button onclick="gradeQuiz('${quiz._id}', '${att.student_id}', ${quiz.total_marks})"
+                                    class="small-btn" style="margin-left:8px;">Save Grade</button>
+                                ${att.graded ? '<span style="color:green; margin-left:8px;">Graded</span>' : ''}
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+                document.getElementById('modal').style.display = 'block';
+            } catch (error) {
+                showAlert('Error loading attempts: ' + error.message, 'error');
+            }
+        };
+
+        window.gradeQuiz = async function(quizId, studentId, totalMarks) {
+            const marks = parseInt(document.getElementById(`quiz-marks-${studentId}`).value);
+
+            if (isNaN(marks) || marks < 0 || marks > totalMarks) {
+                showAlert(`Marks must be between 0 and ${totalMarks}`, 'error');
+                return;
+            }
+
+            try {
+                await apiCall(`/quizzes/${quizId}/grade`, 'POST', {
+                    student_id: studentId,
+                    marks: marks
+                });
+                showAlert('Quiz graded successfully!');
+            } catch (error) {
+                showAlert('Error: ' + error.message, 'error');
+            }
+        };
+
+        // ==================== QUIZ QUESTION BUILDER (Teacher) ====================
+        let questionCount = 0;
+        window.addQuizQuestion = function() {
+            questionCount++;
+            const container = document.getElementById('quiz-questions-list');
+            const div = document.createElement('div');
+            div.style.cssText = 'border:1px solid #ddd; padding:8px; margin-bottom:8px; border-radius:6px;';
+            div.innerHTML = `
+                <label>Q${questionCount}:</label>
+                <input type="text" class="quiz-q-text" placeholder="Question text" style="width:100%; padding:4px; margin-bottom:4px;" required>
+                <input type="text" class="quiz-q-options" placeholder="Options (comma separated)" style="width:100%; padding:4px; margin-bottom:4px;">
+                <input type="text" class="quiz-q-answer" placeholder="Correct answer" style="width:100%; padding:4px;">
+            `;
+            container.appendChild(div);
+        };
+
+        function getQuizQuestions() {
+            const texts = document.querySelectorAll('.quiz-q-text');
+            const options = document.querySelectorAll('.quiz-q-options');
+            const answers = document.querySelectorAll('.quiz-q-answer');
+            const questions = [];
+            texts.forEach((t, i) => {
+                if (t.value.trim()) {
+                    questions.push({
+                        question: t.value,
+                        options: options[i] ? options[i].value.split(',').map(o => o.trim()) : [],
+                        correct_answer: answers[i] ? answers[i].value : ''
+                    });
+                }
+            });
+            return questions;
+        }
+
+        // ==================== FORM SUBMISSIONS ====================
+        document.getElementById('create-teacher-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('teacher-name').value;
+            const email = document.getElementById('teacher-email').value;
+            const password = document.getElementById('teacher-password').value;
+
+            try {
+                await apiCall('/auth/admin/create-user', 'POST', {
+                    name, email, password, role: 'teacher'
+                });
+                showAlert('Teacher created successfully!');
+                e.target.reset();
+                await loadTeachers();
+                await loadAllUsers();
+            } catch (error) {
+                showAlert('Error: ' + error.message, 'error');
+            }
+        });
+
+        document.getElementById('create-course-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('course-title').value;
+            const description = document.getElementById('course-description').value;
+            const teacher_id = document.getElementById('course-teacher').value;
+
+            try {
+                await apiCall('/courses', 'POST', {
+                    title, description, teacher_id
+                });
+                showAlert('Course created successfully!');
+                e.target.reset();
+                await loadAdminCourses();
+            } catch (error) {
+                showAlert('Error: ' + error.message, 'error');
+            }
+        });
+
+        document.getElementById('create-assignment-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const course_id = document.getElementById('assignment-course').value;
+            const title = document.getElementById('assignment-title').value;
+            const description = document.getElementById('assignment-description').value;
+            const due_date = document.getElementById('assignment-due').value;
+            const total_marks = parseInt(document.getElementById('assignment-marks').value);
+
+            try {
+                await apiCall('/assignments', 'POST', {
+                    course_id, title, description, due_date, total_marks
+                });
+                showAlert('Assignment created successfully!');
+                e.target.reset();
+            } catch (error) {
+                showAlert('Error: ' + error.message, 'error');
+            }
+        });
+
+        document.getElementById('create-quiz-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const course_id = document.getElementById('quiz-course').value;
+            const title = document.getElementById('quiz-title').value;
+            const duration = parseInt(document.getElementById('quiz-duration').value);
+            const total_marks = parseInt(document.getElementById('quiz-marks').value);
+            const due_date = document.getElementById('quiz-due').value || null;
+            const questions = getQuizQuestions();
+
+            try {
+                await apiCall('/quizzes', 'POST', {
+                    course_id, title, duration, total_marks, due_date, questions
+                });
+                showAlert('Quiz created successfully!');
+                e.target.reset();
+                document.getElementById('quiz-questions-list').innerHTML = '';
+                questionCount = 0;
+            } catch (error) {
+                showAlert('Error: ' + error.message, 'error');
+            }
+        });
+
+        document.getElementById('upload-material-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const course_id = document.getElementById('material-course').value;
+            const title = document.getElementById('material-title').value;
+            const content = document.getElementById('material-content').value;
+
+            try {
+                await apiCall(`/courses/${course_id}/materials`, 'POST', {
+                    title, content, type: 'text'
+                });
+                showAlert('Material uploaded successfully!');
+                e.target.reset();
+            } catch (error) {
+                showAlert('Error: ' + error.message, 'error');
+            }
+        });
+
+        // ==================== UTILITY FUNCTIONS ====================
+        window.closeModal = function() {
+            document.getElementById('modal').style.display = 'none';
+        };
+
+        window.blockUser = async function(userId) {
+            if (confirm('Are you sure you want to block this user?')) {
+                try {
+                    await apiCall(`/auth/users/${userId}/block`, 'PUT');
+                    showAlert('User blocked successfully!');
+                    if (currentUser.role === 'admin') await loadAllUsers();
+                } catch (error) {
+                    showAlert('Error: ' + error.message, 'error');
+                }
+            }
+        };
+
+        window.unblockUser = async function(userId) {
+            if (confirm('Are you sure you want to unblock this user?')) {
+                try {
+                    await apiCall(`/auth/users/${userId}/unblock`, 'PUT');
+                    showAlert('User unblocked successfully!');
+                    if (currentUser.role === 'admin') await loadAllUsers();
+                } catch (error) {
+                    showAlert('Error: ' + error.message, 'error');
+                }
+            }
+        };
+
+        window.deleteUser = async function(userId) {
+            if (confirm('Are you sure you want to delete this user? This cannot be undone.')) {
+                try {
+                    await apiCall(`/auth/users/${userId}`, 'DELETE');
+                    showAlert('User deleted successfully!');
+                    await loadAllUsers();
+                } catch (error) {
+                    showAlert('Error: ' + error.message, 'error');
+                }
+            }
+        };
+
+        window.deleteCourse = async function(courseId) {
+            if (confirm('Are you sure you want to delete this course?')) {
+                try {
+                    await apiCall(`/courses/${courseId}`, 'DELETE');
+                    showAlert('Course deleted successfully!');
+                    await loadAdminCourses();
+                } catch (error) {
+                    showAlert('Error: ' + error.message, 'error');
+                }
+            }
+        };
+
+        // ==================== EDIT USER (Admin) ====================
+        window.editUser = function(userId, name, email, role) {
+            const modalBody = document.getElementById('modal-body');
+            modalBody.innerHTML = `
+                <h3>Edit User</h3>
+                <form id="edit-user-form">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="edit-user-name" value="${name}" required style="width:100%; padding:8px;">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="edit-user-email" value="${email}" required style="width:100%; padding:8px;">
+                    </div>
+                    <div class="form-group">
+                        <label>Role</label>
+                        <select id="edit-user-role" style="width:100%; padding:8px;">
+                            <option value="student" ${role === 'student' ? 'selected' : ''}>Student</option>
+                            <option value="teacher" ${role === 'teacher' ? 'selected' : ''}>Teacher</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="auth-btn">Save Changes</button>
+                </form>
+            `;
+            document.getElementById('modal').style.display = 'block';
+
+            document.getElementById('edit-user-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                try {
+                    await apiCall(`/auth/users/${userId}`, 'PUT', {
+                        name: document.getElementById('edit-user-name').value,
+                        email: document.getElementById('edit-user-email').value,
+                        role: document.getElementById('edit-user-role').value
+                    });
+                    showAlert('User updated successfully!');
+                    closeModal();
+                    await loadAllUsers();
+                    await loadTeachers();
+                } catch (error) {
+                    showAlert('Error: ' + error.message, 'error');
+                }
+            });
+        };
+
+        // ==================== EDIT COURSE (Admin) ====================
+        window.editCourse = async function(courseId) {
+            try {
+                const course = await apiCall(`/courses/${courseId}`);
+                const teachers = await apiCall('/auth/users?role=teacher');
+
+                const modalBody = document.getElementById('modal-body');
+                modalBody.innerHTML = `
+                    <h3>Edit Course</h3>
+                    <form id="edit-course-form">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" id="edit-course-title" value="${course.title}" required style="width:100%; padding:8px;">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="edit-course-desc" required style="width:100%; padding:8px;">${course.description || ''}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Teacher</label>
+                            <select id="edit-course-teacher" style="width:100%; padding:8px;">
+                                ${teachers.map(t => `<option value="${t._id}" ${t._id === course.teacher_id ? 'selected' : ''}>${t.name} (${t.email})</option>`).join('')}
+                            </select>
+                        </div>
+                        <button type="submit" class="auth-btn">Save Changes</button>
+                    </form>
+                `;
+                document.getElementById('modal').style.display = 'block';
+
+                document.getElementById('edit-course-form').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const newTeacherId = document.getElementById('edit-course-teacher').value;
+                    const selectedTeacher = teachers.find(t => t._id === newTeacherId);
+                    try {
+                        await apiCall(`/courses/${courseId}`, 'PUT', {
+                            title: document.getElementById('edit-course-title').value,
+                            description: document.getElementById('edit-course-desc').value,
+                            teacher_id: newTeacherId,
+                            teacher_name: selectedTeacher ? selectedTeacher.name : ''
+                        });
+                        showAlert('Course updated successfully!');
+                        closeModal();
+                        await loadAdminCourses();
+                    } catch (error) {
+                        showAlert('Error: ' + error.message, 'error');
+                    }
+                });
+            } catch (error) {
+                showAlert('Error loading course: ' + error.message, 'error');
+            }
+        };
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // ==================== INITIALIZE ====================
+        document.getElementById('logout-btn').addEventListener('click', logout);
+        loadDashboard();
+    </script>
+</body>
+</html>

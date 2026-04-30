@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - LearnHub LMS</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-container">
+        <h2><i class="fas fa-user-plus"></i> Create Account</h2>
+        <div id="alert" class="alert"></div>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <input type="hidden" id="role" name="role" value="student">
+            <button type="submit" class="auth-btn">Register</button>
+        </form>
+        <div class="auth-link">
+            Already have an account? <a href="login.html">Login here</a>
+        </div>
+        <div class="auth-link">
+            <a href="../index.html">← Back to Home</a>
+        </div>
+    </div>
+    
+    <script>
+        // API Base URL
+        const API_URL = 'http://localhost:5000/api';
+        
+        // Show alert message
+        function showAlert(message, type = 'success') {
+            const alertDiv = document.getElementById('alert');
+            alertDiv.textContent = message;
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.style.display = 'block';
+            setTimeout(() => {
+                alertDiv.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Handle form submission
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault(); // Prevent form from submitting normally
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+            
+            // Validate inputs
+            if (!name || !email || !password) {
+                showAlert('Please fill all fields', 'error');
+                return;
+            }
+            
+            if (password.length < 4) {
+                showAlert('Password must be at least 4 characters long', 'error');
+                return;
+            }
+            
+            const userData = {
+                name: name,
+                email: email,
+                password: password,
+                role: role
+            };
+            
+            console.log('Sending registration data:', userData);
+            showAlert('Registering... Please wait', 'success');
+            
+            try {
+                const response = await fetch(`${API_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                });
+                
+                const result = await response.json();
+                console.log('Server response:', result);
+                
+                if (response.ok) {
+                    showAlert('✅ Registration successful! Redirecting to login...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    showAlert('❌ ' + (result.error || 'Registration failed'), 'error');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showAlert('❌ Network error: ' + error.message, 'error');
+            }
+        });
+    </script>
+</body>
+</html>
