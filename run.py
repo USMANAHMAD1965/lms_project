@@ -173,7 +173,8 @@ def start_server():
     print("=" * 55)
     print()
 
-    os.chdir(BACKEND_DIR)
+    # Run app.py from the project root to ensure proper import paths
+    os.chdir(ROOT_DIR)
     subprocess.call([VENV_PYTHON, 'app.py'])
 
 

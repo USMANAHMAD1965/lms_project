@@ -1,5 +1,5 @@
 from datetime import datetime
-from utils.db import MongoDB
+from backend.utils.db import MongoDB
 from bson import ObjectId
 
 class Course:

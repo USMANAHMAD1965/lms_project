@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity
-from models.user import User
+from backend.models.user import User
 from functools import wraps
 
 user_model = User()

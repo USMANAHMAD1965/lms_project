@@ -1,5 +1,5 @@
-from utils.db import MongoDB
-from models.user import User
+from backend.utils.db import MongoDB
+from backend.models.user import User
 
 # Connect to database
 db = MongoDB.get_db()

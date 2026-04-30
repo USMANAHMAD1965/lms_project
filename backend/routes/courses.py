@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity
-from models.course import Course
-from models.user import User
+from backend.models.course import Course
+from backend.models.user import User
 
 courses_bp = Blueprint('courses', __name__)
 course_model = Course()

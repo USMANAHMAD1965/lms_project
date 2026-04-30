@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity
-from models.quiz import Quiz
-from models.user import User
+from backend.models.quiz import Quiz
+from backend.models.user import User
 from datetime import datetime
 
 quizzes_bp = Blueprint('quizzes', __name__)

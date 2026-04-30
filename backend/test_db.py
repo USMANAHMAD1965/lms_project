@@ -1,5 +1,5 @@
-from utils.db import MongoDB
-from models.user import User
+from backend.utils.db import MongoDB
+from backend.models.user import User
 import traceback
 
 def test_connection():

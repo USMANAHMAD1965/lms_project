@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, get_jwt_identity, verify_jwt_in_request
-from models.user import User
+from backend.models.user import User
 import datetime
 import traceback
 

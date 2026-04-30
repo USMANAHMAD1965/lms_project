@@ -3,6 +3,7 @@ flask>=2.3.0
 flask-cors>=4.0.0
 flask-jwt-extended>=4.5.0
 werkzeug>=2.3.0
+gunicorn>=21.0.0
 
 # ─── Database ───
 pymongo>=4.5.0

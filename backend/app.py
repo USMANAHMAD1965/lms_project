@@ -7,13 +7,13 @@ import sys
 
 load_dotenv()
 
-from routes.auth import auth_bp
-from routes.courses import courses_bp
-from routes.assignments import assignments_bp
-from routes.quizzes import quizzes_bp
-from routes.attendance import attendance_bp
-from utils.db import MongoDB
-from middleware.auth_middleware import check_blocked_user
+from backend.routes.auth import auth_bp
+from backend.routes.courses import courses_bp
+from backend.routes.assignments import assignments_bp
+from backend.routes.quizzes import quizzes_bp
+from backend.routes.attendance import attendance_bp
+from backend.utils.db import MongoDB
+from backend.middleware.auth_middleware import check_blocked_user
 
 app = Flask(__name__, static_folder='../frontend', static_url_path='')
 

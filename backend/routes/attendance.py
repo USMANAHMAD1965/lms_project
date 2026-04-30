@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity
-from models.attendance import Attendance
-from models.user import User
+from backend.models.attendance import Attendance
+from backend.models.user import User
 
 attendance_bp = Blueprint('attendance', __name__)
 attendance_model = Attendance()
